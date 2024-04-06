@@ -1,0 +1,533 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Blog API",
+      "version": "1.0.0",
+      "description": "API documentation for a blog application",
+      "contact": {
+        "name": "Your Name",
+        "email": "your@email.com"
+      }
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "Development server"
+      }
+    ],
+    "components": {
+      "securitySchemes": {
+        "JWT": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "Authorization"
+        }
+      },
+      "schemas": {
+        "Post": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "title": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "author": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "Error": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "paths": {
+      "/api/posts/posts": {
+        "post": {
+          "summary": "Create a new blog post",
+          "tags": ["Posts"],
+          "security": [{"JWT": {}}],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Post created successfully"
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/api/posts/posts/search": {
+        "get": {
+          "summary": "Search Posts",
+          "tags": ["Posts"],
+          "security": [{"JWT": {}}],
+          "description": "Retrieve posts based on search criteria.",
+          "parameters": [
+            {
+              "name": "tags",
+              "in": "query",
+              "description": "Comma-separated list of tags to filter posts.",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "startDate",
+              "in": "query",
+              "description": "Start date of the date range to filter posts (YYYY-MM-DD).",
+              "schema": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            {
+              "name": "endDate",
+              "in": "query",
+              "description": "End date of the date range to filter posts (YYYY-MM-DD).",
+              "schema": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            {
+              "name": "author",
+              "in": "query",
+              "description": "Author's name to filter posts.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Post"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/posts/posts/{id}": {
+        "put": {
+          "summary": "Update an existing blog post",
+          "tags": ["Posts"],
+          "security": [{"JWT": {}}],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "ID of the post to update"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Post updated successfully"
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "404": {
+              "description": "Post not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete an existing blog post",
+          "tags": ["Posts"],
+          "security": [{"JWT": {}}],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "ID of the post to delete"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Post deleted successfully"
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "404": {
+              "description": "Post not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get an existing blog post",
+          "tags": ["Posts"],
+          "security": [{"JWT": {}}],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "ID of the post to get"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Post retrieved successfully"
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "404": {
+              "description": "Post not found"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }},
+            "/api/user/register": {
+              "post": {
+                "summary": "Register a new user",
+                "tags": ["User"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "username": {
+                            "type": "string"
+                          },
+                          "password": {
+                            "type": "string"
+                          },
+                          "userType": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["username", "password"]
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "201": {
+                    "description": "User registered successfully"
+                  },
+                  "400": {
+                    "description": "Bad request"
+                  },
+                  "500": {
+                    "description": "Internal server error"
+                  }
+                }
+              }
+            },
+            "/api/user/login": {
+              "post": {
+                "summary": "Authenticate user and generate JWT token",
+                "tags": ["User"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "username": {
+                            "type": "string"
+                          },
+                          "password": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["username", "password"]
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Login successful",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "token": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "400": {
+                    "description": "Bad request"
+                  },
+                  "401": {
+                    "description": "Unauthorized"
+                  },
+                  "500": {
+                    "description": "Internal server error"
+                  }
+                }
+              }
+            },
+            "/api/user/profile": {
+              "get": {
+                "summary": "Get user profile",
+                "tags": ["User"],
+                "security": [{"JWT": {}}],
+                "responses": {
+                  "200": {
+                    "description": "User profile retrieved successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "username": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string",
+                              "format": "email"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "401": {
+                    "description": "Unauthorized"
+                  },
+                  "500": {
+                    "description": "Internal server error"
+                  }
+                }
+            }
+        },
+            "/api/tags/tags": {
+                "post": {
+                  "summary": "Create a new tag",
+                  "tags": ["Tags"],
+                  "security": [{"JWT": {}}],
+                  "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            }
+                          },
+                          "required": ["name"]
+                        }
+                      }
+                    }
+                  },
+                  "responses": {
+                    "201": {
+                      "description": "Tag created successfully",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "400": {
+                      "description": "Bad request"
+                    },
+                    "500": {
+                      "description": "Internal server error"
+                    }
+                  }
+                }
+              },
+              "/api/tags/tags/{id}": {
+                "put": {
+                  "summary": "Edit an existing tag",
+                  "tags": ["Tags"],
+                  "security": [{"JWT": {}}],
+                  "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                        "type": "integer"
+                      },
+                      "description": "ID of the tag to edit"
+                    }
+                  ],
+                  "requestBody": {
+                    "required": true,
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "responses": {
+                    "200": {
+                      "description": "Tag edited successfully",
+                      "content": {
+                        "application/json": {
+                          "schema": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "400": {
+                      "description": "Bad request"
+                    },
+                    "500": {
+                      "description": "Internal server error"
+                    }
+                  }
+                },
+                "delete": {
+                  "summary": "Delete an existing tag",
+                  "tags": ["Tags"],
+                  "security": [{"JWT": {}}],
+                  "parameters": [
+                    {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                        "type": "integer"
+                      },
+                      "description": "ID of the tag to delete"
+                    }
+                  ],
+                  "responses": {
+                    "200": {
+                      "description": "Tag deleted successfully"
+                    },
+                    "400": {
+                      "description": "Bad request"
+                    },
+                    "500": {
+                      "description": "Internal server error"
+                    }
+                  }
+                }
+            }
+        
+        
+    }
+}
+  

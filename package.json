@@ -1,0 +1,28 @@
+{
+  "name": "batch-backend",
+  "version": "1.0.0",
+  "description": "Advanced blog post features",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha"
+},
+
+  "author": "Dhanush Kaduluri",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.9.3",
+    "sequelize": "^6.37.2",
+    "sequelize-cli": "^6.6.2",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "chai": "^5.1.0",
+    "mocha": "^10.4.0",
+    "sinon": "^17.0.1",
+    "supertest": "^6.3.4"
+  }
+}
