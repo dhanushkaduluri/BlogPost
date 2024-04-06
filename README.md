@@ -1,5 +1,5 @@
 # BlogPost
-BlogPost is a web application built with Node.js and Sequelize, providing a platform for users to create, manage, and share blog posts. It includes features for managing posts, tags, and users, offering a comprehensive solution for blogging needs.
+BlogPost is a web application built with Node.js, Express.js and Sequelize, providing a platform for users to create, manage, and share blog posts. Implemented many to many connection between post and tags. It includes features for managing posts, tags, and users, offering a comprehensive solution for blogging needs.
 
 # Features
 ## Posts
